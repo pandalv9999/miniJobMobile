@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.example.minijobmobile.R;
+import com.example.minijobmobile.onboarding.login.LoginFragment;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.minijobmobile.onboarding;
+package com.example.minijobmobile.onboarding.login;
 
 import android.os.Bundle;
 

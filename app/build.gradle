@@ -10,6 +10,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    // set for MVVM pattern
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.example.minijobmobile"
         minSdkVersion 21
@@ -42,4 +47,10 @@ dependencies {
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+
+    // mvvm dependency
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+    // MD5 encrption
+    implementation 'commons-codec:commons-codec:1.10'
 }
