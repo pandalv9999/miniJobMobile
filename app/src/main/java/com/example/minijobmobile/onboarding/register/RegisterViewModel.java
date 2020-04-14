@@ -1,4 +1,4 @@
-package com.example.minijobmobile.onboarding.login;
+package com.example.minijobmobile.onboarding.register;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,12 +12,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginViewModel extends BaseViewModel<LoginModel> {
+public class RegisterViewModel extends BaseViewModel<RegisterModel> {
 
     private MutableLiveData<String> toastMsgObserver = new MutableLiveData<>();
 
-    public LoginViewModel(LoginModel loginModel) {
-        super(loginModel);
+    public RegisterViewModel(RegisterModel registerModel) {
+        super(registerModel);
     }
 
     public void setUserId(String userId) {
@@ -28,11 +28,19 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
         model.setPassword(password);
     }
 
+    public void setFirstName(String firstName) {
+        model.setFirstName(firstName);
+    }
+
+    public void setLastName(String lastName) {
+        model.setLastName(lastName);
+    }
+
     public LiveData<String> getToastObserver() {
         return toastMsgObserver;
     }
 
-    public void Login() {
+    public void Register() {
         final String userId = model.getUserId();
         if (userId == null) {
             toastMsgObserver.setValue("Please enter a user Id.");
@@ -43,31 +51,39 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
             toastMsgObserver.setValue("Please enter password.");
             return;
         }
+        final String firstName = model.getFirstName();
+        if (firstName == null) {
+            toastMsgObserver.setValue("Please enter first name");
+            return;
+        }
+        final String lastName = model.getLastName();
+        if (lastName == null) {
+            toastMsgObserver.setValue("Please enter last name");
+            return;
+        }
         String encryptedPassword = Utils.md5Encryption(password);
-        //String encryptedPassword = "3229c1097c00d497a0fd282d586be050";
         OnBoardingResponse onBoardingResponse = new OnBoardingResponse();
         onBoardingResponse.setUser_id(userId);
         onBoardingResponse.setPassword(encryptedPassword);
+        onBoardingResponse.setFirst_name(firstName);
+        onBoardingResponse.setLast_name(lastName);
 
-        Call<OnBoardingResponse> call = ApiUtils.getOnBoardingService().login(onBoardingResponse);
+        Call<OnBoardingResponse> call = ApiUtils.getOnBoardingService().register(onBoardingResponse);
         call.enqueue(new Callback<OnBoardingResponse>() {
             @Override
             public void onResponse(Call<OnBoardingResponse> call, Response<OnBoardingResponse> response) {
-                if (response.code() == 200) {
-                    OnBoardingResponse body = response.body();
-                    String msg = "Success! " + body.getName();
-                    toastMsgObserver.setValue(msg);
+                OnBoardingResponse body = response.body();
+                if (body.getStatus().equals("OK")) {
+                    toastMsgObserver.setValue("Register Success!");
                 } else {
-                    toastMsgObserver.setValue("The username or password is incorrect");
+                    toastMsgObserver.setValue("User exist!");
                 }
             }
 
             @Override
             public void onFailure(Call<OnBoardingResponse> call, Throwable t) {
-                toastMsgObserver.setValue("Error! please try again!\n" + t.getMessage());
+                toastMsgObserver.setValue(t.getMessage());
             }
         });
-
     }
-
 }

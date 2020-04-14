@@ -1,4 +1,4 @@
-package com.example.minijobmobile.onboarding.login;
+package com.example.minijobmobile.onboarding.register;
 
 import android.os.Bundle;
 
@@ -8,65 +8,71 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import com.example.minijobmobile.R;
-
 import com.example.minijobmobile.base.BaseFragment;
-import com.example.minijobmobile.databinding.FragmentLoginBinding;
+import com.example.minijobmobile.databinding.FragmentRegisterBinding;
+import com.example.minijobmobile.onboarding.login.LoginViewModel;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel> {
+public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterModel> {
 
-    private FragmentLoginBinding binding;
+    private FragmentRegisterBinding binding;
 
-    public LoginFragment() {
+    public RegisterFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentLoginBinding.inflate(inflater, container, false);
+        binding = FragmentRegisterBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         binding.etUserId.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 viewModel.setUserId(binding.etUserId.getText().toString());
             }
         });
-
         binding.etPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 viewModel.setPassword(binding.etPassword.getText().toString());
             }
         });
+        binding.etFirstName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                viewModel.setFirstName(binding.etFirstName.getText().toString());
+            }
+        });
+        binding.etLastName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                viewModel.setLastName(binding.etLastName.getText().toString());
+            }
+        });
         viewModel.getToastObserver().observe(this, msg -> {
             Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         });
-        binding.btnLogin.setOnClickListener( v -> {
-            binding.etPassword.clearFocus();
-            viewModel.Login();
+        binding.btnRegister.setOnClickListener(v -> {
+            binding.etLastName.clearFocus();
+            viewModel.Register();
         });
-
     }
 
     @Override
-    protected LoginViewModel getViewModel() {
-        return new ViewModelProvider(requireActivity(), getFactory()).get(LoginViewModel.class);
+    protected RegisterViewModel getViewModel() {
+        return new ViewModelProvider(requireActivity(), getFactory()).get(RegisterViewModel.class);
     }
 
     @Override
@@ -75,13 +81,13 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel> {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new LoginViewModel(getModel());
+                return (T) new RegisterViewModel(getModel());
             }
         };
     }
 
     @Override
-    protected LoginModel getModel() {
-        return new LoginModel();
+    protected RegisterModel getModel() {
+        return new RegisterModel();
     }
 }

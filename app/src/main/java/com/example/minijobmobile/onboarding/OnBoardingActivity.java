@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.example.minijobmobile.R;
 import com.example.minijobmobile.onboarding.login.LoginFragment;
+import com.example.minijobmobile.onboarding.register.RegisterFragment;
 
 import java.util.ArrayList;
 
