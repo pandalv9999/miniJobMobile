@@ -48,8 +48,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
 
-    // mvvm dependency
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    /// Lifecycle components
+    def life_versions = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$life_versions"
+    annotationProcessor "android.arch.lifecycle:compiler:$life_versions"
 
     // MD5 encrption
     implementation 'commons-codec:commons-codec:1.10'

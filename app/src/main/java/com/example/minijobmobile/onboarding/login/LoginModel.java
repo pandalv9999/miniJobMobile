@@ -1,13 +1,12 @@
 package com.example.minijobmobile.onboarding.login;
 
-public class LoginModel {
+import com.example.minijobmobile.base.BaseModel;
+
+public class LoginModel extends BaseModel {
     private String userId;
     private String password;
 
-    public LoginModel(String userId, String password) {
-        this.userId = userId;
-        this.password = password;
-    }
+    public LoginModel(){}
 
     public String getUserId() {
         return userId;
