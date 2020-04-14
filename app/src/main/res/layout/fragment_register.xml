@@ -15,7 +15,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="1dp"
-        android:src="@drawable/Icon" />
+        android:src="@drawable/icon" />
 
     <TextView
         android:id="@+id/tv_subtitle"
