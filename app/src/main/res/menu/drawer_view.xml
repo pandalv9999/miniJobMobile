@@ -5,15 +5,15 @@
         <item
             android:id="@+id/nav_nearby_fragment"
             android:icon="@drawable/ic_nearby"
-            android:title="First"
+            android:title="@string/nearby"
             android:checked="true"/>
         <item
             android:id="@+id/nav_fav_fragment"
             android:icon="@drawable/ic_fav_black"
-            android:title="Second" />
+            android:title="@string/favorite" />
         <item
             android:id="@+id/nav_recommendation_fragment"
             android:icon="@drawable/ic_recommendation"
-            android:title="Third" />
+            android:title="@string/Recommendation" />
     </group>
 </menu>

@@ -5,25 +5,26 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
-
-import com.example.minijobmobile.R;
 
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentLoginBinding;
+import com.example.minijobmobile.onboarding.OnBoardingListener;
+import com.example.minijobmobile.remote.response.OnBoardingResponse;
+import com.example.minijobmobile.util.Utils;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel> {
+public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
+        implements OnBoardingListener {
 
     private FragmentLoginBinding binding;
 
@@ -37,6 +38,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel> {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+        viewModel.setOnBoardingListener(this);
         return binding.getRoot();
     }
 
@@ -54,14 +56,10 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel> {
                 viewModel.setPassword(binding.etPassword.getText().toString());
             }
         });
-        viewModel.getToastObserver().observe(this, msg -> {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-        });
         binding.btnLogin.setOnClickListener( v -> {
             binding.etPassword.clearFocus();
             viewModel.Login();
         });
-
     }
 
     @Override
@@ -83,5 +81,19 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel> {
     @Override
     protected LoginModel getModel() {
         return new LoginModel();
+    }
+
+    @Override
+    public void onSuccess(LiveData<OnBoardingResponse> loginResponse) {
+        loginResponse.observe(this, it -> {
+            Utils.showToast(getContext(), it.getStatus()).show();
+            // ready for a new fragment or activity
+        });
+
+    }
+
+    @Override
+    public void onFailure(String message) {
+        Utils.showToast(getContext(), message).show();
     }
 }

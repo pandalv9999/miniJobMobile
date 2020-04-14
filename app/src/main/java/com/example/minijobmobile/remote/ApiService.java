@@ -7,7 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface OnBoardingService {
+public interface ApiService {
     @POST("jupiter/login")
     Call<OnBoardingResponse> login(@Body OnBoardingResponse credential);
 

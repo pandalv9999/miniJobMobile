@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -18,13 +19,17 @@ import android.widget.Toast;
 import com.example.minijobmobile.R;
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentRegisterBinding;
+import com.example.minijobmobile.onboarding.OnBoardingListener;
 import com.example.minijobmobile.onboarding.login.LoginViewModel;
+import com.example.minijobmobile.remote.response.OnBoardingResponse;
+import com.example.minijobmobile.util.Utils;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterModel> {
+public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterModel>
+        implements OnBoardingListener {
 
     private FragmentRegisterBinding binding;
 
@@ -36,6 +41,7 @@ public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterMo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
+        viewModel.setOnBoardingListener(this);
         return binding.getRoot();
     }
 
@@ -60,9 +66,6 @@ public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterMo
             if (!hasFocus) {
                 viewModel.setLastName(binding.etLastName.getText().toString());
             }
-        });
-        viewModel.getToastObserver().observe(this, msg -> {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         });
         binding.btnRegister.setOnClickListener(v -> {
             binding.etLastName.clearFocus();
@@ -89,5 +92,18 @@ public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterMo
     @Override
     protected RegisterModel getModel() {
         return new RegisterModel();
+    }
+
+    @Override
+    public void onSuccess(LiveData<OnBoardingResponse> loginResponse) {
+        loginResponse.observe(this, it -> {
+            Utils.showToast(getContext(), it.getStatus()).show();
+        });
+
+    }
+
+    @Override
+    public void onFailure(String message) {
+        Utils.showToast(getContext(), message).show();
     }
 }

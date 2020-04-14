@@ -1,5 +1,8 @@
 package com.example.minijobmobile.util;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import org.apache.commons.codec.binary.Hex;
 
 import java.nio.charset.StandardCharsets;
@@ -23,5 +26,9 @@ public class Utils {
             ex.printStackTrace();
         }
         return result;
+    }
+
+    public static Toast showToast(Context context, String msg) {
+        return Toast.makeText(context, msg, Toast.LENGTH_SHORT);
     }
 }
