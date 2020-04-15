@@ -5,7 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.minijobmobile.databinding.ActivityMainBinding;
-import com.example.minijobmobile.main.FavoriteFragment;
+import com.example.minijobmobile.main.favorite.FavoriteFragment;
 import com.example.minijobmobile.main.nearby.NearbyFragment;
 import com.example.minijobmobile.main.RecommendationFragment;
 import com.google.android.material.navigation.NavigationView;

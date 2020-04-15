@@ -1,4 +1,4 @@
-package com.example.minijobmobile.main.nearby;
+package com.example.minijobmobile.main.favorite;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,8 +20,9 @@ import android.widget.Button;
 import com.example.minijobmobile.R;
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentNearbyBinding;
-import com.example.minijobmobile.main.Item;
 import com.example.minijobmobile.main.ItemDataAdapter;
+import com.example.minijobmobile.main.nearby.NearbyModel;
+import com.example.minijobmobile.main.nearby.NearbyViewModel;
 import com.example.minijobmobile.remote.RemoteRequestListener;
 import com.example.minijobmobile.remote.response.FavoriteItemResponse;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
@@ -29,9 +31,8 @@ import com.example.minijobmobile.util.Utils;
 import java.util.ArrayList;
 
 
-public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> implements
-        ItemDataAdapter.OnNoteListener, RemoteRequestListener {
-
+public class FavoriteFragment extends BaseFragment<FavoriteViewModel, FavoriteModel>
+        implements ItemDataAdapter.OnNoteListener, RemoteRequestListener {
     private FragmentNearbyBinding binding;
     private ItemDataAdapter adapter = new ItemDataAdapter();
 
@@ -48,7 +49,7 @@ public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> i
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Nearby");
+        getActivity().setTitle("Favorite");
         viewModel.setRemoteRequestListener(this);
         binding.rvMain.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvMain.setHasFixedSize(true);
@@ -57,8 +58,8 @@ public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> i
     }
 
     @Override
-    protected NearbyViewModel getViewModel() {
-        return new ViewModelProvider(requireActivity(), getFactory()).get(NearbyViewModel.class);
+    protected FavoriteViewModel getViewModel() {
+        return new ViewModelProvider(requireActivity(), getFactory()).get(FavoriteViewModel.class);
     }
 
     @Override
@@ -67,18 +68,18 @@ public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> i
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new NearbyViewModel(getModel());
+                return (T) new FavoriteViewModel(getModel());
             }
         };
     }
 
     @Override
-    protected NearbyModel getModel() {
-        return new NearbyModel();
+    protected FavoriteModel getModel() {
+        return new FavoriteModel();
     }
 
     private void getAllItem() {
-        viewModel.getSearchResult().observe(getViewLifecycleOwner(), list -> {
+        viewModel.getFavoriteList().observe(getViewLifecycleOwner(), list -> {
             adapter.setItems(new ArrayList<>(list));
             adapter.setOnNoteListener(this);
             adapter.notifyDataSetChanged();

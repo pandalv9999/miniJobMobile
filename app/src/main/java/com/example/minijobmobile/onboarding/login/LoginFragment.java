@@ -19,6 +19,7 @@ import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentLoginBinding;
 import com.example.minijobmobile.main.Item;
 import com.example.minijobmobile.remote.RemoteRequestListener;
+import com.example.minijobmobile.remote.response.FavoriteItemResponse;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
 import com.example.minijobmobile.util.Utils;
 
@@ -101,7 +102,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
     }
 
     @Override
-    public void onUpdate(LiveData<Item> itemResponse) {
+    public void onUpdate(LiveData<FavoriteItemResponse> itemResponse) {
 
     }
 

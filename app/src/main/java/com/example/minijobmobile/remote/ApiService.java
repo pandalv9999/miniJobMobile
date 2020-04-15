@@ -10,8 +10,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -35,6 +37,14 @@ public interface ApiService {
     @POST("jupiter/history")
     Call<FavoriteItemResponse> addFavorite(@Body FavoriteItemResponse item);
 
-    @DELETE("jupiter/history")
+    @Headers({
+            "Content-Type: application/json;charset=ISO-8859-1",
+            "Connection: keep-alive"
+    })
+
+    @HTTP(method = "DELETE", path = "jupiter/history", hasBody = true)
     Call<FavoriteItemResponse> deleteFavorite(@Body FavoriteItemResponse item);
+
+    @GET("jupiter/history")
+    Call<List<Item>> getFavorite(@Query("user_id") String userId);
 }

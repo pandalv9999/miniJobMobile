@@ -1,4 +1,4 @@
-package com.example.minijobmobile.main.nearby;
+package com.example.minijobmobile.main.favorite;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -8,21 +8,19 @@ import com.example.minijobmobile.remote.RemoteRequestListener;
 
 import java.util.List;
 
-public class NearbyViewModel extends BaseViewModel<NearbyModel> {
-
+public class FavoriteViewModel extends BaseViewModel<FavoriteModel> {
+    MutableLiveData<List<Item>> favoriteList = model.GetFavorite();
     private RemoteRequestListener remoteRequestListener = null;
-    MutableLiveData<List<Item>> searchResult = model.searchNearby();
 
-    protected NearbyViewModel(NearbyModel nearbyModel) {
-        super(nearbyModel);
+    protected FavoriteViewModel(FavoriteModel baseModel) {
+        super(baseModel);
     }
 
+    public MutableLiveData<List<Item>> getFavoriteList() {
+        return favoriteList;
+    }
     public void setRemoteRequestListener(RemoteRequestListener remoteRequestListener) {
         this.remoteRequestListener = remoteRequestListener;
-    }
-
-    public MutableLiveData<List<Item>> getSearchResult() {
-        return searchResult;
     }
 
     public void processFavoriteItem(Item item, boolean favorite) {

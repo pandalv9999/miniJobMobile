@@ -17,6 +17,7 @@ import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentRegisterBinding;
 import com.example.minijobmobile.main.Item;
 import com.example.minijobmobile.remote.RemoteRequestListener;
+import com.example.minijobmobile.remote.response.FavoriteItemResponse;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
 import com.example.minijobmobile.util.Utils;
 
@@ -99,7 +100,7 @@ public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterMo
     }
 
     @Override
-    public void onUpdate(LiveData<Item> itemResponse) {
+    public void onUpdate(LiveData<FavoriteItemResponse> itemResponse) {
 
     }
 

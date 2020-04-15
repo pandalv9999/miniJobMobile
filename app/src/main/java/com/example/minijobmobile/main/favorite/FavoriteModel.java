@@ -1,4 +1,4 @@
-package com.example.minijobmobile.main.nearby;
+package com.example.minijobmobile.main.favorite;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -13,12 +13,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NearbyModel extends BaseModel {
-    public MutableLiveData<List<Item>> searchNearby() {
+public class FavoriteModel extends BaseModel {
+    public MutableLiveData<List<Item>> GetFavorite() {
         final MutableLiveData<List<Item>> result = new MutableLiveData<>();
         // retrieve user-related data
-        Call<List<Item>> call = apiService.search(37.38, -122.08,
-                Config.getInstance().getUserId());
+        Call<List<Item>> call = apiService.getFavorite(Config.getInstance().getUserId());
         call.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
