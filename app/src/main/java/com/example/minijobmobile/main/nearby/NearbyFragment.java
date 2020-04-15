@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,13 +21,15 @@ import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentNearbyBinding;
 import com.example.minijobmobile.main.Item;
 import com.example.minijobmobile.main.ItemDataAdapter;
+import com.example.minijobmobile.remote.RemoteRequestListener;
+import com.example.minijobmobile.remote.response.OnBoardingResponse;
 import com.example.minijobmobile.util.Utils;
 
 import java.util.ArrayList;
 
 
 public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> implements
-        ItemDataAdapter.OnNoteListener {
+        ItemDataAdapter.OnNoteListener, RemoteRequestListener {
 
     private FragmentNearbyBinding binding;
     private ItemDataAdapter adapter = new ItemDataAdapter();
@@ -45,6 +48,7 @@ public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> i
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Nearby");
+        viewModel.setRemoteRequestListener(this);
         binding.rvMain.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvMain.setHasFixedSize(true);
         binding.rvMain.setAdapter(adapter);
@@ -100,6 +104,21 @@ public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> i
             adapter.getItem(position).setFavorite(true);
             viewModel.processFavoriteItem(adapter.getItem(position), true);
         }
+
+    }
+
+    @Override
+    public void onSuccess(LiveData<OnBoardingResponse> loginResponse) {
+
+    }
+
+    @Override
+    public void onUpdate(LiveData<Item> itemResponse) {
+
+    }
+
+    @Override
+    public void onFailure(String message) {
 
     }
 }

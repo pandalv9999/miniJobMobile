@@ -91,6 +91,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
         loginResponse.observe(this, it -> {
             Utils.showToast(getContext(), it.getStatus()).show();
             if (it.getStatus().equals("OK")) {
+                Utils.showToast(getContext(), "Loading job list...").show();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 viewModel.setUserProfile(it);
                 startActivity(intent);

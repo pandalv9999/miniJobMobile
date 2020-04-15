@@ -2,12 +2,14 @@ package com.example.minijobmobile.remote;
 
 
 import com.example.minijobmobile.main.Item;
+import com.example.minijobmobile.remote.response.FavoriteItemResponse;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -29,4 +31,10 @@ public interface ApiService {
     Call<List<Item>> search(@Query("lat") double latitude,
                             @Query("lon") double longitude,
                             @Query("user_id") String userId);
+
+    @POST("jupiter/history")
+    Call<FavoriteItemResponse> addFavorite(@Body FavoriteItemResponse item);
+
+    @DELETE("jupiter/history")
+    Call<FavoriteItemResponse> deleteFavorite(@Body FavoriteItemResponse item);
 }

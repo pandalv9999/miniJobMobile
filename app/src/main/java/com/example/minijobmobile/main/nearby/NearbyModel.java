@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.minijobmobile.base.BaseModel;
 import com.example.minijobmobile.main.Item;
+import com.example.minijobmobile.remote.response.FavoriteItemResponse;
 import com.example.minijobmobile.util.Config;
 
 import java.util.List;
@@ -30,5 +31,17 @@ public class NearbyModel extends BaseModel {
             }
         });
         return result;
+    }
+
+    public MutableLiveData<FavoriteItemResponse> call(Item item, boolean favorite) {
+        return favorite ? addFavorite(item) : deleteFavorite(item);
+    }
+
+    public MutableLiveData<FavoriteItemResponse> addFavorite(Item item) {
+
+    }
+
+    public MutableLiveData<FavoriteItemResponse> deleteFavorite(Item item) {
+
     }
 }

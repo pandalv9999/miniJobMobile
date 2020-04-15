@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="Software Engineer"
             android:textColor="@color/colorSecondaryText"
             android:textSize="17sp"
