@@ -15,6 +15,10 @@ android {
         enabled = true
     }
 
+    dataBinding{
+        enabled=true
+    }
+
     defaultConfig {
         applicationId "com.example.minijobmobile"
         minSdkVersion 24
@@ -61,4 +65,12 @@ dependencies {
 
     // navigation drawer
     implementation 'com.google.android.material:material:1.1.0'
+
+    // glide for image
+    implementation "com.github.bumptech.glide:glide:4.9.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
 }

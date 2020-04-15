@@ -1,21 +1,13 @@
 package com.example.minijobmobile.onboarding.login;
-
 import android.content.Intent;
+import android.location.LocationManager;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.example.minijobmobile.MainActivity;
 import com.example.minijobmobile.base.BaseViewModel;
 
 import com.example.minijobmobile.onboarding.OnBoardingListener;
-import com.example.minijobmobile.remote.ApiUtils;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
-import com.example.minijobmobile.util.Utils;
+import com.example.minijobmobile.util.Config;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginViewModel extends BaseViewModel<LoginModel> {
 
@@ -49,6 +41,10 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
             return;
         }
         onBoardingListener.onSuccess(model.userLogin());
+    }
+
+    public void setUserProfile(OnBoardingResponse response) {
+        Config.getInstance(response.getUser_id(), response.getFirst_name(), response.getLast_name());
     }
 
 }

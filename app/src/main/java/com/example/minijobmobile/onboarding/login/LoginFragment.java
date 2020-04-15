@@ -1,5 +1,8 @@
 package com.example.minijobmobile.onboarding.login;
 
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.minijobmobile.MainActivity;
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentLoginBinding;
 import com.example.minijobmobile.onboarding.OnBoardingListener;
@@ -87,7 +91,11 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
     public void onSuccess(LiveData<OnBoardingResponse> loginResponse) {
         loginResponse.observe(this, it -> {
             Utils.showToast(getContext(), it.getStatus()).show();
-            // ready for a new fragment or activity
+            if (it.getStatus().equals("OK")) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                viewModel.setUserProfile(it);
+                startActivity(intent);
+            }
         });
 
     }
