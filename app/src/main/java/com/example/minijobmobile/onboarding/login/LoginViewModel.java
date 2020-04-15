@@ -41,8 +41,4 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
         remoteRequestListener.onSuccess(model.userLogin());
     }
 
-    public void setUserProfile(OnBoardingResponse response) {
-        Config.getInstance(response.getUser_id(), response.getFirst_name(), response.getLast_name());
-    }
-
 }

@@ -37,14 +37,15 @@ public interface ApiService {
     @POST("jupiter/history")
     Call<FavoriteItemResponse> addFavorite(@Body FavoriteItemResponse item);
 
-    @Headers({
-            "Content-Type: application/json;charset=ISO-8859-1",
-            "Connection: keep-alive"
-    })
 
     @HTTP(method = "DELETE", path = "jupiter/history", hasBody = true)
     Call<FavoriteItemResponse> deleteFavorite(@Body FavoriteItemResponse item);
 
     @GET("jupiter/history")
     Call<List<Item>> getFavorite(@Query("user_id") String userId);
+
+    @GET("jupiter/recommendation")
+    Call<List<Item>> recommend(@Query("lat") double latitude,
+                            @Query("lon") double longitude,
+                            @Query("user_id") String userId);
 }

@@ -20,11 +20,11 @@ public class Config {
         return lastName;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -33,8 +33,17 @@ public class Config {
     }
 
     private String lastName;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    private double longitude;
 
     private static Config instance = null;
 
@@ -42,8 +51,6 @@ public class Config {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-
-
     }
 
     public static Config getInstance(String userId, String firstName, String lastName) {

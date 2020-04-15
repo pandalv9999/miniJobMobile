@@ -94,7 +94,9 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
             if (it.getStatus().equals("OK")) {
                 Utils.showToast(getContext(), "Loading job list...").show();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                viewModel.setUserProfile(it);
+                intent.putExtra("userId", it.getUser_id());
+                intent.putExtra("firstName", it.getFirst_name());
+                intent.putExtra("lastName", it.getLast_name());
                 startActivity(intent);
             }
         });

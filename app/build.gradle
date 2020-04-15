@@ -73,4 +73,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
+    // location tracker
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
 }

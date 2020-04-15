@@ -24,4 +24,5 @@
     <string name="nearby">Nearby</string>
     <string name="favorite">Favorite</string>
     <string name="Recommendation">Recommendation</string>
+    <string name="Welcome">Welcome, </string>
 </resources>

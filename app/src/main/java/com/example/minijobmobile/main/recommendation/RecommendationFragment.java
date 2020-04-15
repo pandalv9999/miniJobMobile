@@ -1,4 +1,4 @@
-package com.example.minijobmobile.main.favorite;
+package com.example.minijobmobile.main.recommendation;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,11 +19,11 @@ import android.widget.Button;
 
 import com.example.minijobmobile.R;
 import com.example.minijobmobile.base.BaseFragment;
-import com.example.minijobmobile.databinding.FragmentFavoriteBinding;
 import com.example.minijobmobile.databinding.FragmentNearbyBinding;
+import com.example.minijobmobile.databinding.FragmentRecommendationBinding;
 import com.example.minijobmobile.main.ItemDataAdapter;
-import com.example.minijobmobile.main.nearby.NearbyModel;
-import com.example.minijobmobile.main.nearby.NearbyViewModel;
+import com.example.minijobmobile.main.favorite.FavoriteModel;
+import com.example.minijobmobile.main.favorite.FavoriteViewModel;
 import com.example.minijobmobile.remote.RemoteRequestListener;
 import com.example.minijobmobile.remote.response.FavoriteItemResponse;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
@@ -31,16 +31,17 @@ import com.example.minijobmobile.util.Utils;
 
 import java.util.ArrayList;
 
+public class RecommendationFragment
+        extends BaseFragment<RecommendationViewModel, RecommendationModel>
+        implements RemoteRequestListener, ItemDataAdapter.OnNoteListener {
 
-public class FavoriteFragment extends BaseFragment<FavoriteViewModel, FavoriteModel>
-        implements ItemDataAdapter.OnNoteListener, RemoteRequestListener {
-    private FragmentFavoriteBinding binding;
+    FragmentRecommendationBinding binding;
     private ItemDataAdapter adapter = new ItemDataAdapter();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentFavoriteBinding.inflate(inflater, container, false);
+        binding = FragmentRecommendationBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -50,7 +51,7 @@ public class FavoriteFragment extends BaseFragment<FavoriteViewModel, FavoriteMo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Favorite");
+        getActivity().setTitle("Recommendation");
         viewModel.setRemoteRequestListener(this);
         binding.rvMain.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvMain.setHasFixedSize(true);
@@ -59,8 +60,8 @@ public class FavoriteFragment extends BaseFragment<FavoriteViewModel, FavoriteMo
     }
 
     @Override
-    protected FavoriteViewModel getViewModel() {
-        return new ViewModelProvider(requireActivity(), getFactory()).get(FavoriteViewModel.class);
+    protected RecommendationViewModel getViewModel() {
+        return new ViewModelProvider(requireActivity(), getFactory()).get(RecommendationViewModel.class);
     }
 
     @Override
@@ -69,14 +70,14 @@ public class FavoriteFragment extends BaseFragment<FavoriteViewModel, FavoriteMo
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new FavoriteViewModel(getModel());
+                return (T) new RecommendationViewModel(getModel());
             }
         };
     }
 
     @Override
-    protected FavoriteModel getModel() {
-        return new FavoriteModel();
+    protected RecommendationModel getModel() {
+        return new RecommendationModel();
     }
 
     private void getAllItem() {
