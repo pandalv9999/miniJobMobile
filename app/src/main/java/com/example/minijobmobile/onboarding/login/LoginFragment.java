@@ -1,8 +1,6 @@
 package com.example.minijobmobile.onboarding.login;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +17,8 @@ import android.view.ViewGroup;
 import com.example.minijobmobile.MainActivity;
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentLoginBinding;
-import com.example.minijobmobile.onboarding.OnBoardingListener;
+import com.example.minijobmobile.main.Item;
+import com.example.minijobmobile.remote.RemoteRequestListener;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
 import com.example.minijobmobile.util.Utils;
 
@@ -28,7 +27,7 @@ import com.example.minijobmobile.util.Utils;
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
-        implements OnBoardingListener {
+        implements RemoteRequestListener {
 
     private FragmentLoginBinding binding;
 
@@ -42,7 +41,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
-        viewModel.setOnBoardingListener(this);
+        viewModel.setRemoteRequestListener(this);
         return binding.getRoot();
     }
 
@@ -97,6 +96,11 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    public void onUpdate(LiveData<Item> itemResponse) {
 
     }
 

@@ -1,24 +1,22 @@
 package com.example.minijobmobile.onboarding.login;
-import android.content.Intent;
-import android.location.LocationManager;
 
 import com.example.minijobmobile.base.BaseViewModel;
 
-import com.example.minijobmobile.onboarding.OnBoardingListener;
+import com.example.minijobmobile.remote.RemoteRequestListener;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
 import com.example.minijobmobile.util.Config;
 
 
 public class LoginViewModel extends BaseViewModel<LoginModel> {
 
-    private OnBoardingListener onBoardingListener = null;
+    private RemoteRequestListener remoteRequestListener = null;
 
     public LoginViewModel(LoginModel loginModel) {
         super(loginModel);
     }
 
-    public void setOnBoardingListener(OnBoardingListener onBoardingListener) {
-        this.onBoardingListener = onBoardingListener;
+    public void setRemoteRequestListener(RemoteRequestListener remoteRequestListener) {
+        this.remoteRequestListener = remoteRequestListener;
     }
 
     public void setUserId(String userId) {
@@ -32,15 +30,15 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
     public void Login() {
         final String userId = model.getUserId();
         if (userId == null) {
-            onBoardingListener.onFailure("Please enter user ID");
+            remoteRequestListener.onFailure("Please enter user ID");
             return;
         }
         final String password = model.getPassword();
         if (password == null) {
-            onBoardingListener.onFailure("Please enter password.");
+            remoteRequestListener.onFailure("Please enter password.");
             return;
         }
-        onBoardingListener.onSuccess(model.userLogin());
+        remoteRequestListener.onSuccess(model.userLogin());
     }
 
     public void setUserProfile(OnBoardingResponse response) {

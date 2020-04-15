@@ -86,7 +86,7 @@ public class Item {
         Glide.with(imageView.getContext())
                 .setDefaultRequestOptions(new RequestOptions().circleCrop())
                 .load(image_url)
-                .placeholder(R.drawable.ic_recommendation)
+                .placeholder(R.drawable.loading)
                 .into(imageView);
     }
 }

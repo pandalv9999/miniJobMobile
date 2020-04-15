@@ -9,18 +9,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.minijobmobile.R;
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentRegisterBinding;
-import com.example.minijobmobile.onboarding.OnBoardingListener;
-import com.example.minijobmobile.onboarding.login.LoginViewModel;
+import com.example.minijobmobile.main.Item;
+import com.example.minijobmobile.remote.RemoteRequestListener;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
 import com.example.minijobmobile.util.Utils;
 
@@ -29,7 +25,7 @@ import com.example.minijobmobile.util.Utils;
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterModel>
-        implements OnBoardingListener {
+        implements RemoteRequestListener {
 
     private FragmentRegisterBinding binding;
 
@@ -41,7 +37,7 @@ public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterMo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
-        viewModel.setOnBoardingListener(this);
+        viewModel.setRemoteRequestListener(this);
         return binding.getRoot();
     }
 
@@ -99,6 +95,11 @@ public class RegisterFragment extends BaseFragment<RegisterViewModel, RegisterMo
         loginResponse.observe(this, it -> {
             Utils.showToast(getContext(), it.getStatus()).show();
         });
+
+    }
+
+    @Override
+    public void onUpdate(LiveData<Item> itemResponse) {
 
     }
 

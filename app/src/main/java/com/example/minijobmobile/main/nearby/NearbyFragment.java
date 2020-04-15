@@ -1,10 +1,11 @@
 package com.example.minijobmobile.main.nearby;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,17 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.minijobmobile.R;
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentNearbyBinding;
 import com.example.minijobmobile.main.Item;
 import com.example.minijobmobile.main.ItemDataAdapter;
-import com.example.minijobmobile.remote.response.ListItemQueryResponse;
+import com.example.minijobmobile.util.Utils;
 
 import java.util.ArrayList;
 
 
-public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> {
+public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> implements
+        ItemDataAdapter.OnNoteListener {
 
     private FragmentNearbyBinding binding;
     private ItemDataAdapter adapter = new ItemDataAdapter();
@@ -70,8 +74,32 @@ public class NearbyFragment extends BaseFragment<NearbyViewModel, NearbyModel> {
 
     private void getAllItem() {
         viewModel.getSearchResult().observe(getViewLifecycleOwner(), list -> {
-
-            adapter.setItems(list);
+            adapter.setItems(new ArrayList<>(list));
+            adapter.setOnNoteListener(this);
+            adapter.notifyDataSetChanged();
         });
+    }
+
+    @Override
+    public void onNoteClick(int position, ItemDataAdapter adapter) {
+        Intent browserIntend = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(adapter.getItem(position).getUrl()));
+        startActivity(browserIntend);
+    }
+
+    @Override
+    public void onHeartClick(int position, ItemDataAdapter adapter, Button heart) {
+        if (adapter.getItem(position).isFavorite()) {
+            heart.setBackground(getContext().getResources()
+                    .getDrawable(R.drawable.ic_fav_black));
+            adapter.getItem(position).setFavorite(false);
+            viewModel.processFavoriteItem(adapter.getItem(position), false);
+        } else {
+            heart.setBackground(getContext().getResources()
+                    .getDrawable(R.drawable.ic_fav_red));
+            adapter.getItem(position).setFavorite(true);
+            viewModel.processFavoriteItem(adapter.getItem(position), true);
+        }
+
     }
 }
