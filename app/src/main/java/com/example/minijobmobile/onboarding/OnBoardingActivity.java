@@ -21,6 +21,7 @@ import com.example.minijobmobile.MainActivity;
 import com.example.minijobmobile.R;
 import com.example.minijobmobile.onboarding.login.LoginFragment;
 import com.example.minijobmobile.onboarding.register.RegisterFragment;
+import com.example.minijobmobile.util.Config;
 import com.example.minijobmobile.util.Utils;
 import android.location.LocationListener;
 
@@ -64,6 +65,7 @@ public class OnBoardingActivity extends AppCompatActivity implements LocationLis
         pageAdapter.addFragment(new LoginFragment());
         pageAdapter.addFragment(new RegisterFragment());
         viewPager.setAdapter(pageAdapter);
+        getLocation();
     }
 
     void getLocation() {
@@ -80,9 +82,8 @@ public class OnBoardingActivity extends AppCompatActivity implements LocationLis
 
     @Override
     public void onLocationChanged(Location location) {
-        Utils.showToast(OnBoardingActivity.this, String.valueOf(location.getLongitude())).show();
-
-
+        Config.latitude = location.getLatitude();
+        Config.longitude = location.getLongitude();
     }
 
     @Override

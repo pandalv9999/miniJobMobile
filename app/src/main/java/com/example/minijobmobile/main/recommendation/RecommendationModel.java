@@ -17,7 +17,7 @@ public class RecommendationModel extends BaseModel {
     public MutableLiveData<List<Item>> GetRecommendation() {
         final MutableLiveData<List<Item>> result = new MutableLiveData<>();
         // retrieve user-related data
-        Call<List<Item>> call = apiService.recommend(37.38, -122.08,
+        Call<List<Item>> call = apiService.recommend(Config.latitude, Config.longitude,
                 Config.getInstance().getUserId());
         call.enqueue(new Callback<List<Item>>() {
             @Override
