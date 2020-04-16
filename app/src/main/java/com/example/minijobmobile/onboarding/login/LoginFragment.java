@@ -98,6 +98,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
                 intent.putExtra("firstName", it.getFirst_name());
                 intent.putExtra("lastName", it.getLast_name());
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

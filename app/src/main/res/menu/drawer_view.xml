@@ -15,5 +15,8 @@
             android:id="@+id/nav_recommendation_fragment"
             android:icon="@drawable/ic_recommendation"
             android:title="@string/Recommendation" />
+        <item
+            android:id="@+id/logout"
+            android:title="Logout"/>
     </group>
 </menu>

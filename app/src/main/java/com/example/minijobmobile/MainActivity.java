@@ -10,6 +10,7 @@ import com.example.minijobmobile.databinding.NavHeaderBinding;
 import com.example.minijobmobile.main.favorite.FavoriteFragment;
 import com.example.minijobmobile.main.nearby.NearbyFragment;
 import com.example.minijobmobile.main.recommendation.RecommendationFragment;
+import com.example.minijobmobile.onboarding.OnBoardingActivity;
 import com.example.minijobmobile.util.Config;
 import com.example.minijobmobile.util.Utils;
 import com.google.android.material.navigation.NavigationView;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             selectDrawerItem(item);
             return true;
         });
+
         headerBinding.headerFirstName.setText(Config.getInstance().getFirstName());
         headerBinding.headerLastName.setText(Config.getInstance().getLastName());
         headerBinding.headerLatitude.setText(String.valueOf(Config.latitude));
@@ -79,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_recommendation_fragment:
                 fragmentClass = RecommendationFragment.class;
                 break;
+            case R.id.logout:
+                Intent intent = new Intent(MainActivity.this, OnBoardingActivity.class);
+                startActivity(intent);
+                finish();
             default:
                 fragmentClass = NearbyFragment.class;
         }
