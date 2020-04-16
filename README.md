@@ -1,4 +1,4 @@
 # miniJobMobile
 An Android front end App for miniJob
 
-Using MVVM structure for development
+Using MVVM desgin pattern, utilizing LiveData, Retrofit and Recycler View
