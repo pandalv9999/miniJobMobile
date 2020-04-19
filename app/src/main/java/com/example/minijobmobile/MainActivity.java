@@ -1,6 +1,11 @@
 package com.example.minijobmobile;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,12 +15,13 @@ import com.example.minijobmobile.databinding.NavHeaderBinding;
 import com.example.minijobmobile.main.favorite.FavoriteFragment;
 import com.example.minijobmobile.main.nearby.NearbyFragment;
 import com.example.minijobmobile.main.recommendation.RecommendationFragment;
-import com.example.minijobmobile.onboarding.OnBoardingActivity;
+import com.example.minijobmobile.onboarding.OnBoardingBaseFragment;
 import com.example.minijobmobile.util.Config;
 import com.example.minijobmobile.util.Utils;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,100 +29,59 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
-
-    private DrawerLayout mDrawer;
-
-    // Make sure to be using androidx.appcompat.app.ActionBarDrawerToggle version.
-    private ActionBarDrawerToggle drawerToggle;
+public class MainActivity extends AppCompatActivity implements LocationListener, NavigationManager {
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        NavHeaderBinding headerBinding = NavHeaderBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        getLocation();
+        navigateTo(new OnBoardingBaseFragment());
 
-        Intent intent = getIntent();
-        String firstName = intent.getStringExtra("firstName");
-        String lastName = intent.getStringExtra("lastName");
-        Config.getInstance(intent.getStringExtra("userId"), firstName, lastName);
-
-        // Set a Toolbar to replace the ActionBar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // This will display an Up icon (<-), we will replace it with hamburger later
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new NearbyFragment()).commit();
-
-        // Find our drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        binding.nvView.setNavigationItemSelectedListener( item -> {
-            selectDrawerItem(item);
-            return true;
-        });
-
-        headerBinding.headerFirstName.setText(Config.getInstance().getFirstName());
-        headerBinding.headerLastName.setText(Config.getInstance().getLastName());
-        headerBinding.headerLatitude.setText(String.valueOf(Config.latitude));
-        headerBinding.headerLongitude.setText(String.valueOf(Config.longitude));
-        Utils.showToast(MainActivity.this, "text" + headerBinding.headerLongitude.getText().toString()).show();
     }
 
-
-    public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
-        Fragment fragment = null;
-        Class fragmentClass;
-        switch(menuItem.getItemId()) {
-            case R.id.nav_fav_fragment:
-                fragmentClass = FavoriteFragment.class;
-                break;
-            case R.id.nav_recommendation_fragment:
-                fragmentClass = RecommendationFragment.class;
-                break;
-            case R.id.logout:
-                Intent intent = new Intent(MainActivity.this, OnBoardingActivity.class);
-                startActivity(intent);
-                finish();
-            default:
-                fragmentClass = NearbyFragment.class;
-        }
-
+    void getLocation() {
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+        }
+        catch(SecurityException e) {
             e.printStackTrace();
         }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onLocationChanged(Location location) {
+        Config.latitude = location.getLatitude();
+        Config.longitude = location.getLongitude();
     }
 
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Utils.showToast(MainActivity.this, "Please Enable GPS and Internet").show();
+    }
+
+    @Override
+    public void navigateTo(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_view, fragment, null)
+                .addToBackStack(null)
+                .commit();
+    }
 }

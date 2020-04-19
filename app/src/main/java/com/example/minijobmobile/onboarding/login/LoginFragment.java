@@ -1,5 +1,6 @@
 package com.example.minijobmobile.onboarding.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,12 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.minijobmobile.MainActivity;
+import com.example.minijobmobile.MainFragment;
+import com.example.minijobmobile.NavigationManager;
+import com.example.minijobmobile.R;
 import com.example.minijobmobile.base.BaseFragment;
 import com.example.minijobmobile.databinding.FragmentLoginBinding;
 import com.example.minijobmobile.main.Item;
+import com.example.minijobmobile.onboarding.OnBoardingBaseFragment;
 import com.example.minijobmobile.remote.RemoteRequestListener;
 import com.example.minijobmobile.remote.response.FavoriteItemResponse;
 import com.example.minijobmobile.remote.response.OnBoardingResponse;
+import com.example.minijobmobile.util.Config;
 import com.example.minijobmobile.util.Utils;
 
 
@@ -31,9 +37,16 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
         implements RemoteRequestListener {
 
     private FragmentLoginBinding binding;
+    private NavigationManager navigationManager;
 
     public LoginFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        navigationManager = (NavigationManager) context;
     }
 
 
@@ -93,12 +106,8 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginModel>
             Utils.showToast(getContext(), it.getStatus()).show();
             if (it.getStatus().equals("OK")) {
                 Utils.showToast(getContext(), "Loading job list...").show();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("userId", it.getUser_id());
-                intent.putExtra("firstName", it.getFirst_name());
-                intent.putExtra("lastName", it.getLast_name());
-                startActivity(intent);
-                getActivity().finish();
+                Config.getInstance(it.getUser_id(), it.getFirst_name(), it.getLast_name());
+                navigationManager.navigateTo(new MainFragment());
             }
         });
 
